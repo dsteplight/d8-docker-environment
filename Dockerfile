@@ -50,3 +50,8 @@ RUN /usr/local/bin/phpcs --config-set show_progress 1 && \
 RUN composer global require drupal/coder:^8.3.1
 RUN composer global require dealerdirect/phpcodesniffer-composer-installer
 RUN /usr/local/bin/phpcs --config-set installed_paths /root/.composer/vendor/drupal/coder/coder_sniffer
+
+#install PHPCBF PHP CODING BEAUTIFIER
+RUN curl -sSL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -o phpcbf.phar
+RUN chmod a+x phpcbf.phar
+RUN mv phpcbf.phar /usr/local/bin/phpcbf
