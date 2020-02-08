@@ -55,3 +55,8 @@ RUN /usr/local/bin/phpcs --config-set installed_paths /root/.composer/vendor/dru
 RUN curl -sSL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -o phpcbf.phar
 RUN chmod a+x phpcbf.phar
 RUN mv phpcbf.phar /usr/local/bin/phpcbf
+
+#install PHP Copy/Paste Detector
+RUN curl -sSL https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
+RUN chmod a+x phpcpd.phar
+RUN mv phpcpd.phar /usr/local/bin/phpcpd
