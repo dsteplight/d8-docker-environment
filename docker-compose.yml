@@ -14,7 +14,7 @@ services:
       - mysql 
     build: .
     ports:
-      - "8274:80"
+      - "8999:80"
 #Build Volumes
 volumes:
     db_data:
