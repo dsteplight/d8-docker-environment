@@ -32,6 +32,8 @@ RUN curl https://beyondgrep.com/ack-2.22-single-file > /usr/local/bin/ack && chm
 RUN curl -sS https://getcomposer.org/installer | \
     php -- --install-dir=/usr/local/bin/ --filename=composer
 
+
+
 WORKDIR /tmp
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
     cp /tmp/phpcs.phar /usr/local/bin/phpcs && \
@@ -55,6 +57,26 @@ RUN /usr/local/bin/phpcs --config-set installed_paths /root/.composer/vendor/dru
 RUN curl -sSL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -o phpcbf.phar
 RUN chmod a+x phpcbf.phar
 RUN mv phpcbf.phar /usr/local/bin/phpcbf
+
+# Install Drush launcher
+RUN wget -O drush.phar https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar && \
+    chmod +x drush.phar && \
+    mv drush.phar /usr/local/bin/drush
+
+#install Drupal Console Globally
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar
+RUN mv drupal.phar /usr/local/bin/drupal
+RUN chmod +x /usr/local/bin/drupal
+
+WORKDIR /var/www/html/
+RUN composer require drush/drush
+
+#REMOVE COMPOSER RELATRED FILES BEFORE INSTALLING drupal console into project
+RUN rm composer.lock
+RUN rm -rf vendor/
+
+#Install Drupal Console into Drupal Project
+RUN composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader 
 
 #install PHP Copy/Paste Detector
 RUN curl -sSL https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
